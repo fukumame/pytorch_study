@@ -1,6 +1,7 @@
 import torch
 import torchvision
 import torchvision.transforms as transforms
+from tqdm import tqdm
 
 transform = transforms.Compose(
     [transforms.ToTensor(),
@@ -87,7 +88,7 @@ def validate_test_acc():
     print('Accuracy of the network on the 10000 test images: {}'.format(100 * correct / total))
 
 
-for epoch in range(2):  # loop over the dataset multiple times
+for epoch in tqdm(range(100)):  # loop over the dataset multiple times
     running_loss = 0.0
     for i, data in enumerate(trainloader):
         inputs, labels = data
@@ -101,6 +102,6 @@ for epoch in range(2):  # loop over the dataset multiple times
         running_loss += loss.item()
 
         if i % 2000 == 0:  # print every 2000 mini-batches
-            print('[{}, {}] loss: {}'.format(epoch + 1, i, running_loss / 2000))
+            print('epoch: {}, iteration: {}, loss: {}'.format(epoch + 1, i, running_loss / 2000))
             running_loss = 0.0
             validate_test_acc()
